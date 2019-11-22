@@ -7,14 +7,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
+import com.openclassrooms.entrevoisins.events.FavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.ui.neighbour_detail.DetailNeighbourActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -56,6 +61,12 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
             intent.putExtra("neighbour", neighbour.getId());
             mContext.startActivity(intent);
         });
+
+        // TODO Ajouter une corbeille qui supprimera des favoris
+
+        holder.mDeleteButton.setOnClickListener(v -> {
+            EventBus.getDefault().post(new FavoriteNeighbourEvent(neighbour, false));
+        });
     }
 
     @Override
@@ -68,6 +79,8 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
         public ImageView mNeighbourAvatar;
         @BindView(R.id.item_list_name)
         public TextView mNeighbourName;
+        @BindView(R.id.item_list_delete_button)
+        public ImageButton mDeleteButton;
         @BindView(R.id.favorite_neighbour_list_item)
         public ConstraintLayout mNeighbourListItem;
 

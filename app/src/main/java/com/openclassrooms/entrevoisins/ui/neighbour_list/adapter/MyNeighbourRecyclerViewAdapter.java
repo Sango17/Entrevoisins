@@ -3,6 +3,7 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,11 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.ui.neighbour_detail.DetailNeighbourActivity;
+import com.openclassrooms.entrevoisins.utils.NeighbourDiffCallback;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
 
 public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeighbourRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Neighbour> mNeighbours;
+    private List<Neighbour> mNeighbours;
     private Context mContext;
 
     public MyNeighbourRecyclerViewAdapter(List<Neighbour> items, Context context) {
@@ -79,5 +82,11 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public void updateList(List<Neighbour> newNeighbourList) {
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new NeighbourDiffCallback(newNeighbourList, mNeighbours));
+        this.mNeighbours = new ArrayList<>(newNeighbourList);
+        diffResult.dispatchUpdatesTo(this);
     }
 }

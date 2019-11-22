@@ -30,9 +30,13 @@ public interface NeighbourApiService {
 
 
     /**
-     * SetFqvorite a neighbour
+     * SetFavorite a neighbour
      * @param neighbour
      */
     void favoriteNeighbour(Neighbour neighbour, Boolean isFavorite);
 
+    /**
+     * Add a random neighbour
+     */
+    Neighbour addRandomNeighbour();
 }

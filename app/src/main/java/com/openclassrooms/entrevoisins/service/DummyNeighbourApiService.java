@@ -51,4 +51,9 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
     public void favoriteNeighbour(Neighbour neighbour, Boolean isFavorite) {
         neighbour.setFavorite(isFavorite);
     }
+
+    @Override
+    public Neighbour addRandomNeighbour() {
+        return  DummyNeighbourGenerator.generateNeighbour();
+    }
 }

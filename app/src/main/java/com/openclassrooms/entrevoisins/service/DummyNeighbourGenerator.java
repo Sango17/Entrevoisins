@@ -5,6 +5,7 @@ import com.openclassrooms.entrevoisins.model.Neighbour;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public abstract class DummyNeighbourGenerator {
 
@@ -25,5 +26,9 @@ public abstract class DummyNeighbourGenerator {
 
     static List<Neighbour> generateNeighbours() {
         return new ArrayList<>(DUMMY_NEIGHBOURS);
+    }
+
+    static Neighbour generateNeighbour() {
+        return DUMMY_NEIGHBOURS.get(new Random().nextInt(DUMMY_NEIGHBOURS.size()));
     }
 }

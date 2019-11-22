@@ -28,6 +28,7 @@ public class NeighbourFragment extends Fragment {
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
+    private MyNeighbourRecyclerViewAdapter mAdapter;
 
 
     /**
@@ -61,7 +62,8 @@ public class NeighbourFragment extends Fragment {
      */
     private void initList() {
         mNeighbours = mApiService.getNeighbours();
-        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, getContext()));
+        mAdapter = new MyNeighbourRecyclerViewAdapter(mNeighbours, getContext());
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -84,5 +86,11 @@ public class NeighbourFragment extends Fragment {
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
         mApiService.deleteNeighbour(event.neighbour);
         initList();
+    }
+
+    public void updateList() {
+        List<Neighbour> newList = mNeighbours;
+        newList.add(0, mApiService.addRandomNeighbour());
+        mAdapter.updateList(newList);
     }
 }

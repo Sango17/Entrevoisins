@@ -13,12 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.events.FavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -57,7 +53,7 @@ public class DetailNeighbourActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             int id = getIntent().getIntExtra("neighbour", -1);
             mNeighbours = mApiService.getNeighbours();
-            mNeighbour = getNeighbourfromId(id);
+            mNeighbour = getNeighbourFromId(id);
 
 
             if (mNeighbour != null) {
@@ -90,12 +86,12 @@ public class DetailNeighbourActivity extends AppCompatActivity {
     private void initClickListener() {
         favoriteFab.setOnClickListener(v -> {
             if (isCheckedFavorite()) {
-                EventBus.getDefault().post(new FavoriteNeighbourEvent(mNeighbour, false));
+                mApiService.favoriteNeighbour(mNeighbour, false);
                 setFab();
 
                 Log.d("Alex", mNeighbour.getFavorite().toString());
             } else {
-                EventBus.getDefault().post(new FavoriteNeighbourEvent(mNeighbour, true));
+                mApiService.favoriteNeighbour(mNeighbour, true);
                 setFab();
 
                 Log.d("Alex", mNeighbour.getFavorite().toString());
@@ -114,22 +110,12 @@ public class DetailNeighbourActivity extends AppCompatActivity {
      * @param id
      * @return selected Neighbour from his ID
      */
-    private Neighbour getNeighbourfromId(int id) {
+    private Neighbour getNeighbourFromId(int id) {
         for (Neighbour neighbour : mNeighbours) {
             if (neighbour.getId() == id) {
                 return neighbour;
             }
         }
         return null;
-    }
-
-    /**
-     * Add to favorite if the user clicks on a favorite button
-     *
-     * @param event
-     */
-    @Subscribe
-    public void onFavoriteNeighbour(FavoriteNeighbourEvent event, Boolean isFavorite) {
-        mApiService.favoriteNeighbour(event.neighbour, isFavorite);
     }
 }
