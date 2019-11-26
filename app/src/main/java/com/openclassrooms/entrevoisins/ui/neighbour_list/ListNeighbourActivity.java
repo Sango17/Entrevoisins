@@ -11,10 +11,8 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.adapter.ListNeighbourPagerAdapter;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.fragment.FavoriteFragment;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.fragment.FavoriteNeighbourFragment;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.fragment.NeighbourFragment;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +28,8 @@ public class ListNeighbourActivity extends AppCompatActivity {
     ViewPager mViewPager;
     @BindView(R.id.fab_list_neighbour)
     FloatingActionButton mFab;
-    NeighbourFragment mNeighbourFragment;
+    NeighbourFragment mNeighbourFragment = new NeighbourFragment();
+    FavoriteNeighbourFragment mFavoriteNeighbourFragment = new FavoriteNeighbourFragment();
 
     ListNeighbourPagerAdapter mPagerAdapter;
     NeighbourApiService mApiService;
@@ -45,15 +44,13 @@ public class ListNeighbourActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
 
-        mNeighbourFragment = (NeighbourFragment) getSupportFragmentManager().findFragmentById((R.id.list_neighbours));
-
         mApiService = DI.getNeighbourApiService();
 
         mPagerAdapter = new ListNeighbourPagerAdapter(getSupportFragmentManager());
 
         // add fragment
-        mPagerAdapter.addFragment(new NeighbourFragment());
-        mPagerAdapter.addFragment(new FavoriteFragment());
+        mPagerAdapter.addFragment(mNeighbourFragment);
+        mPagerAdapter.addFragment(mFavoriteNeighbourFragment);
 
         // adapter setup
         mViewPager.setAdapter(mPagerAdapter);

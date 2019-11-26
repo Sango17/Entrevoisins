@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.FavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
@@ -27,13 +26,13 @@ import java.util.List;
 /**
  * Created by Alexandre SENEVIRATNE on 11/6/2019.
  */
-public class FavoriteFragment extends Fragment {
+public class FavoriteNeighbourFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
 
-    public static FavoriteFragment newInstance() {
-        FavoriteFragment fragment = new FavoriteFragment();
+    public static FavoriteNeighbourFragment newInstance() {
+        FavoriteNeighbourFragment fragment = new FavoriteNeighbourFragment();
         return fragment;
     }
 

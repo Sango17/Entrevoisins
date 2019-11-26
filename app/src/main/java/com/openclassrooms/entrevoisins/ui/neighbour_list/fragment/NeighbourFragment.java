@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,5 +93,6 @@ public class NeighbourFragment extends Fragment {
         List<Neighbour> newList = mNeighbours;
         newList.add(0, mApiService.addRandomNeighbour());
         mAdapter.updateList(newList);
+        mAdapter.notifyDataSetChanged();
     }
 }

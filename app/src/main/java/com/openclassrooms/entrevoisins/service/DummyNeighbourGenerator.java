@@ -9,7 +9,7 @@ import java.util.Random;
 
 public abstract class DummyNeighbourGenerator {
 
-    public static List<Neighbour> DUMMY_NEIGHBOURS = Arrays.asList(
+    private static List<Neighbour> DUMMY_NEIGHBOURS = Arrays.asList(
             new Neighbour(1, "Caroline", "http://i.pravatar.cc/150?u=a042581f4e29026704d", "1, rue de Paris, 75001 Paris", "0650505050", "www.facebook.fr/caroline", false),
             new Neighbour(2, "Jack", "http://i.pravatar.cc/150?u=a042581f4e29026704e", "16, rue de Lyon, 75001 Paris", "0650505050", "www.facebook.fr/jack", false),
             new Neighbour(3, "Chloé", "http://i.pravatar.cc/150?u=a042581f4e29026704f", "51, rue de Voltaire, 75001 Paris", "0650505050", "www.facebook.fr/chloe", false),
@@ -24,11 +24,13 @@ public abstract class DummyNeighbourGenerator {
             new Neighbour(12, "Ludovic", "http://i.pravatar.cc/150?u=a042581f3e39026702d", "19, rue de Tempo, 75001 Paris", "0650505050", "www.facebook.fr/ludovic", false)
     );
 
-    static List<Neighbour> generateNeighbours() {
+    public static List<Neighbour> generateNeighbours() {
         return new ArrayList<>(DUMMY_NEIGHBOURS);
     }
 
-    static Neighbour generateNeighbour() {
-        return DUMMY_NEIGHBOURS.get(new Random().nextInt(DUMMY_NEIGHBOURS.size()));
+   public static Neighbour generateNeighbour() {
+        Neighbour randomNeighbour = DUMMY_NEIGHBOURS.get(new Random().nextInt(DUMMY_NEIGHBOURS.size()));
+        randomNeighbour.setId(new Random().nextInt((100 - DUMMY_NEIGHBOURS.size()) +1));
+        return randomNeighbour;
     }
 }
