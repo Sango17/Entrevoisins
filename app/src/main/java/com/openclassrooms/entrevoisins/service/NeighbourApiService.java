@@ -38,5 +38,5 @@ public interface NeighbourApiService {
     /**
      * Add a random neighbour
      */
-    Neighbour addRandomNeighbour();
+    Neighbour getRandomNeighbour();
 }

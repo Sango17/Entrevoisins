@@ -53,7 +53,7 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
     }
 
     @Override
-    public Neighbour addRandomNeighbour() {
+    public Neighbour getRandomNeighbour() {
         return  DummyNeighbourGenerator.generateNeighbour();
     }
 }

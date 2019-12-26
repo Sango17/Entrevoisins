@@ -75,6 +75,9 @@ public class DetailNeighbourActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Update drawable of FAB
+     */
     private void setFab() {
         if (isCheckedFavorite()) {
             favoriteFab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_yellow_24dp));
@@ -83,18 +86,17 @@ public class DetailNeighbourActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize click listener
+     */
     private void initClickListener() {
         favoriteFab.setOnClickListener(v -> {
             if (isCheckedFavorite()) {
                 mApiService.favoriteNeighbour(mNeighbour, false);
                 setFab();
-
-                Log.d("Alex", mNeighbour.getFavorite().toString());
             } else {
                 mApiService.favoriteNeighbour(mNeighbour, true);
                 setFab();
-
-                Log.d("Alex", mNeighbour.getFavorite().toString());
             }
         });
     }

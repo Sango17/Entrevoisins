@@ -91,7 +91,7 @@ public class NeighbourFragment extends Fragment {
 
     public void updateList() {
         List<Neighbour> newList = mNeighbours;
-        newList.add(0, mApiService.addRandomNeighbour());
+        newList.add(0, mApiService.getRandomNeighbour());
         mAdapter.updateList(newList);
         mAdapter.notifyDataSetChanged();
     }

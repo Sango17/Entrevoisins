@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.FavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.ui.neighbour_detail.DetailNeighbourActivity;
@@ -79,7 +78,7 @@ public class FavoriteRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteRe
         public ImageView mNeighbourAvatar;
         @BindView(R.id.item_list_name)
         public TextView mNeighbourName;
-        @BindView(R.id.item_list_delete_button)
+        @BindView(R.id.item_list_favorite_delete_button)
         public ImageButton mDeleteButton;
         @BindView(R.id.favorite_neighbour_list_item)
         public ConstraintLayout mNeighbourListItem;
