@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Alexandre SENEVIRATNE on 12/3/2019.
  */
-public class NeighbourTest {
+public class NeighbourUnitTest {
     private static final int TEST_ID = 25;
     private static final String TEST_NAME = "TestingNeighbour";
     private static final String TEST_AVATAR_URL = "www.test.com";
