@@ -1,5 +1,6 @@
 package com.openclassrooms.entrevoisins.neighbour_list;
 
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -50,11 +51,6 @@ public class FavoriteNeighboursListInstrumentedTest {
         mActivity = mActivityRule.getActivity();
         assertThat(mActivity, notNullValue());
 
-        // Set the favorite neighbour which is the 3rd value of the DummyNeighbourGenerator
-        NeighbourApiService service = DI.getNewInstanceApiService();
-        Neighbour favoriteNeighbour = service.getNeighbours().get(2);
-        service.favoriteNeighbour(favoriteNeighbour, true);
-
         // Move to Favorite when tab is clicked
         onView(allOf(withContentDescription("Favorites"),
                 childAtPosition(childAtPosition(withId(R.id.tabs), 0), 1),
@@ -82,18 +78,21 @@ public class FavoriteNeighboursListInstrumentedTest {
      */
     @Test
     public void favoriteNeighboursList_deleteAction_shouldRemoveItem() {
-        // Check if there are 1 item set in the recyclerView
+        // Check if there are 2 item set in the recyclerView
         onView(ViewMatchers.withId(R.id.list_neighbours_favorite))
-                .check(withItemCount(1));
+                .check(withItemCount(2));
 
         // Click on the delete button of the
-        onView(allOf(withId(R.id.item_list_favorite_delete_button),
-                childAtPosition(allOf(withId(R.id.favorite_neighbour_list_item), childAtPosition(withClassName(is("android.support.v7.widget.RecyclerView")), 1)), 2),
-                isDisplayed())).perform(click());
-
-        // Check if there are 1 item set in the recyclerView
-        onView(ViewMatchers.withId(R.id.list_neighbours_favorite))
-                .check(withItemCount(0));
+        ViewInteraction imageButton = onView(
+                allOf(withId(R.id.item_list_favorite_delete_button),
+                        childAtPosition(
+                                allOf(withId(R.id.favorite_neighbour_list_item),
+                                        childAtPosition(
+                                                withId(R.id.list_neighbours_favorite),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        imageButton.check(matches(isDisplayed()));
     }
 
     private static Matcher<View> childAtPosition(
