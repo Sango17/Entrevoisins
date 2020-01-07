@@ -16,7 +16,7 @@ import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.FavoriteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.adapter.FavoriteRecyclerViewAdapter;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.adapter.FavoriteNeighbourRecyclerViewAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -63,7 +63,7 @@ public class FavoriteNeighbourFragment extends Fragment {
      */
     private void initList() {
         mNeighbours = mApiService.getFavoriteNeighbours();
-        mRecyclerView.setAdapter(new FavoriteRecyclerViewAdapter(mNeighbours, getContext()));
+        mRecyclerView.setAdapter(new FavoriteNeighbourRecyclerViewAdapter(mNeighbours, getContext()));
     }
 
     @Override

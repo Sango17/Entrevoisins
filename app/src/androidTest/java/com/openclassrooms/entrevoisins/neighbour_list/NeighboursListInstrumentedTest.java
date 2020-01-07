@@ -72,7 +72,7 @@ public class NeighboursListInstrumentedTest {
         onView(ViewMatchers.withId(R.id.list_neighbours))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
         // Then : the number of element is 11
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(--ITEMS_COUNT));
     }
 
     @Test
@@ -82,6 +82,6 @@ public class NeighboursListInstrumentedTest {
         // When perform a click on a add icon
         onView(ViewMatchers.withId(R.id.fab_list_neighbour)).perform(click());
         // Then : the number of element is 13
-        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT + 1));
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(++ITEMS_COUNT));
     }
 }

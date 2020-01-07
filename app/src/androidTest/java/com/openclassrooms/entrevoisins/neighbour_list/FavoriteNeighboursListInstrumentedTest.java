@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -40,13 +43,17 @@ public class FavoriteNeighboursListInstrumentedTest {
     private ListNeighbourActivity mActivity;
 
     @Rule
-    public ActivityTestRule<ListNeighbourActivity> mActivityRule =
-            new ActivityTestRule(ListNeighbourActivity.class);
+    public ActivityTestRule<ListNeighbourActivity> mActivityRule = new ActivityTestRule(ListNeighbourActivity.class);
 
     @Before
     public void setUp() {
         mActivity = mActivityRule.getActivity();
         assertThat(mActivity, notNullValue());
+
+        // Set the favorite neighbour which is the 3rd value of the DummyNeighbourGenerator
+        NeighbourApiService service = DI.getNewInstanceApiService();
+        Neighbour favoriteNeighbour = service.getNeighbours().get(2);
+        service.favoriteNeighbour(favoriteNeighbour, true);
 
         // Move to Favorite when tab is clicked
         onView(allOf(withContentDescription("Favorites"),
@@ -61,7 +68,7 @@ public class FavoriteNeighboursListInstrumentedTest {
     }
 
     /**
-     * We ensure that our recyclerview is displaying at least on item
+     * We ensure that our recyclerview is displaying at least one item
      */
     @Test
     public void favoriteNeighboursList_shouldNotBeEmpty() {
@@ -75,18 +82,18 @@ public class FavoriteNeighboursListInstrumentedTest {
      */
     @Test
     public void favoriteNeighboursList_deleteAction_shouldRemoveItem() {
-        // Check if there are 2 items set in the recyclerView
+        // Check if there are 1 item set in the recyclerView
         onView(ViewMatchers.withId(R.id.list_neighbours_favorite))
-                .check(withItemCount(2));
+                .check(withItemCount(1));
 
-        // Click on the delete button of item position 2
+        // Click on the delete button of the
         onView(allOf(withId(R.id.item_list_favorite_delete_button),
                 childAtPosition(allOf(withId(R.id.favorite_neighbour_list_item), childAtPosition(withClassName(is("android.support.v7.widget.RecyclerView")), 1)), 2),
                 isDisplayed())).perform(click());
 
-        // Check if there is 1 items set in the recyclerView
+        // Check if there are 1 item set in the recyclerView
         onView(ViewMatchers.withId(R.id.list_neighbours_favorite))
-                .check(withItemCount(1));
+                .check(withItemCount(0));
     }
 
     private static Matcher<View> childAtPosition(

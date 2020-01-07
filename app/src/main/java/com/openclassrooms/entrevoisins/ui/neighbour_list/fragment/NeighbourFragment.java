@@ -15,7 +15,7 @@ import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.adapter.MyNeighbourRecyclerViewAdapter;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.adapter.NeighboursRecyclerViewAdapter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -28,7 +28,7 @@ public class NeighbourFragment extends Fragment {
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
-    private MyNeighbourRecyclerViewAdapter mAdapter;
+    private NeighboursRecyclerViewAdapter mAdapter;
 
 
     /**
@@ -62,7 +62,7 @@ public class NeighbourFragment extends Fragment {
      */
     private void initList() {
         mNeighbours = mApiService.getNeighbours();
-        mAdapter = new MyNeighbourRecyclerViewAdapter(mNeighbours, getContext());
+        mAdapter = new NeighboursRecyclerViewAdapter(mNeighbours, getContext());
         mRecyclerView.setAdapter(mAdapter);
     }
 

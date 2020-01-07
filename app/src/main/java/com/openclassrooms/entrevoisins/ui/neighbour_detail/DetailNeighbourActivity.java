@@ -19,7 +19,6 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import java.util.List;
 
 public class DetailNeighbourActivity extends AppCompatActivity {
-
     private NeighbourApiService mApiService;
     private Neighbour mNeighbour;
     private List<Neighbour> mNeighbours;
