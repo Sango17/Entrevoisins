@@ -2,6 +2,9 @@
 
 Entrevoisins est une application qui permet à des personnes d’un même quartier de se rendre des petits services : garde d’animaux, petit bricolage, troc d’objets, cours particuliers, de nombreuses options s’offrent aux utilisateurs.
 
+| ![](images/ListNeighbourFragment.jpg) | ![](images/FavoriteNeighbourFragment.jpg) | ![](images/DetailNeighbourActivity.jpg) |
+|:---:|:---:|:---:|
+
 ## Installation
 Cloner ce repertoire et importer sur **Android Studio**
 ```bash
