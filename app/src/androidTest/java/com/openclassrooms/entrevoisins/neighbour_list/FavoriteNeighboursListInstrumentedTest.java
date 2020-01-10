@@ -97,7 +97,7 @@ public class FavoriteNeighboursListInstrumentedTest {
                 .check(withItemCount(0));
 
         // Go to Neighbours Tab on Viewpager
-        onView(withId(R.id.container)).perform(ViewPagerActions.scrollRight());
+        onView(withId(R.id.container)).perform(ViewPagerActions.scrollLeft());
 
         // Check the initial count of neighbours
         onView(withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
