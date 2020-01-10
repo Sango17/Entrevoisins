@@ -61,8 +61,6 @@ public class FavoriteNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<N
             mContext.startActivity(intent);
         });
 
-        // TODO Ajouter une corbeille qui supprimera des favoris
-
         holder.mDeleteButton.setOnClickListener(v -> {
             EventBus.getDefault().post(new FavoriteNeighbourEvent(neighbour, false));
         });
