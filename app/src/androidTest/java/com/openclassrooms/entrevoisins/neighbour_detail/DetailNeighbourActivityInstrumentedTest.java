@@ -1,7 +1,6 @@
 package com.openclassrooms.entrevoisins.neighbour_detail;
 
-
-import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -23,11 +22,9 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -44,8 +41,8 @@ public class DetailNeighbourActivityInstrumentedTest {
     @Test
     public void detailNeighbourActivityTest() {
         // Click on the first item on the recyclerView (Caroline is the selected neighbour)
-        onView(allOf(withId(R.id.list_neighbours), withParent(withId(R.id.container))))
-                .perform(actionOnItemAtPosition(0, click()));
+        // Click on first element of Neighbour's list
+        onView(withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 
         // Check if the FAB is displayed
         onView(allOf(withId(R.id.favorite_fab),

@@ -1,21 +1,15 @@
 package com.openclassrooms.entrevoisins.neighbour_list;
 
-import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.contrib.ViewPagerActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -23,17 +17,9 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.swipeLeft;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
-import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
@@ -41,6 +27,10 @@ import static org.hamcrest.core.IsNull.notNullValue;
  */
 @RunWith(AndroidJUnit4.class)
 public class FavoriteNeighboursListInstrumentedTest {
+
+    // This is fixed
+    private static int ITEMS_COUNT = 12;
+
     private ListNeighbourActivity mActivity;
 
     @Rule
@@ -50,67 +40,66 @@ public class FavoriteNeighboursListInstrumentedTest {
     public void setUp() {
         mActivity = mActivityRule.getActivity();
         assertThat(mActivity, notNullValue());
-
-        // Move to Favorite when tab is clicked
-        onView(allOf(withContentDescription("Favorites"),
-                childAtPosition(childAtPosition(withId(R.id.tabs), 0), 1),
-                isDisplayed()))
-                .perform(click());
-
-        // Move to Favorite when swipe left
-        onView(allOf(withId(R.id.container),
-                childAtPosition(childAtPosition(withId(android.R.id.content), 0), 1),
-                isDisplayed())).perform(swipeLeft());
     }
 
-    /**
-     * We ensure that our recyclerview is displaying at least one item
-     */
     @Test
-    public void favoriteNeighboursList_shouldNotBeEmpty() {
-        // Check if there is at least 1 item in the recyclerView
-        onView(ViewMatchers.withId(R.id.list_neighbours_favorite))
-                .check(matches(hasMinimumChildCount(1)));
+    public void favoriteNeighbourList_addAction_shouldAddItem() {
+        // Check the initial count of neighbours
+        onView(withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+
+        // Click on first element of Neighbour's list
+        onView(withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        // Click on FAB Favorite in order to set that neighbour as favorite
+        onView(withId(R.id.favorite_fab)).perform(click());
+
+        // Click onBackPressed()
+        Espresso.pressBack();
+
+        // Check the initial count of neighbours
+        onView(withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+
+        // Go to Favorite Tab on ViewPager
+        onView(withId(R.id.container)).perform(ViewPagerActions.scrollRight());
+
+        // Check if there is at least 1 favorite element in the RecyclerView
+        onView(ViewMatchers.withId(R.id.list_neighbours_favorite)).check(withItemCount(1));
     }
 
-    /**
-     * When we delete an item, the item is no more shown
-     */
     @Test
     public void favoriteNeighboursList_deleteAction_shouldRemoveItem() {
-        // Check if there are 2 item set in the recyclerView
+        // Check the initial count of neighbours
+        onView(withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+
+        // Click on first element of Neighbour's list
+        onView(withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
+        // Click on FAB Favorite in order to set that neighbour as favorite
+        onView(withId(R.id.favorite_fab)).perform(click());
+
+        // Click onBackPressed()
+        Espresso.pressBack();
+
+        // Check the initial count of neighbours
+        onView(withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+
+        // Go to Favorite Tab on ViewPager
+        onView(withId(R.id.container)).perform(ViewPagerActions.scrollRight());
+
+        // Check if there is at least 1 favorite element in the RecyclerView
+        onView(ViewMatchers.withId(R.id.list_neighbours_favorite)).check(withItemCount(1));
+
+        // Click on Delete button of the first element
+        onView(withId(R.id.list_neighbours_favorite)).perform(RecyclerViewActions.actionOnItemAtPosition(0, new DeleteViewAction()));
+
+        // Check if there is no favorite element in the RecyclerView
         onView(ViewMatchers.withId(R.id.list_neighbours_favorite))
-                .check(withItemCount(2));
+                .check(withItemCount(0));
 
-        // Click on the delete button of the
-        ViewInteraction imageButton = onView(
-                allOf(withId(R.id.item_list_favorite_delete_button),
-                        childAtPosition(
-                                allOf(withId(R.id.favorite_neighbour_list_item),
-                                        childAtPosition(
-                                                withId(R.id.list_neighbours_favorite),
-                                                0)),
-                                2),
-                        isDisplayed()));
-        imageButton.check(matches(isDisplayed()));
-    }
+        // Go to Neighbours Tab on Viewpager
+        onView(withId(R.id.container)).perform(ViewPagerActions.scrollRight());
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+        // Check the initial count of neighbours
+        onView(withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
     }
 }

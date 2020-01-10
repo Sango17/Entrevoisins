@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by Alexandre SENEVIRATNE on 11/11/2019.
  */
 
-public class FavoriteNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<FavoriteNeighbourRecyclerViewAdapter.ViewHolder> {
+public class FavoriteNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<NeighbourViewHolder> {
 
     private final List<Neighbour> mNeighbours;
     private Context mContext;
@@ -40,14 +40,14 @@ public class FavoriteNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<F
     }
 
     @Override
-    public FavoriteNeighbourRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public NeighbourViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.favorite_neighbour_list_item, parent, false);
-        return new FavoriteNeighbourRecyclerViewAdapter.ViewHolder(view);
+                .inflate(R.layout.neighbour_list_item, parent, false);
+        return new NeighbourViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final FavoriteNeighbourRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final NeighbourViewHolder holder, int position) {
         Neighbour neighbour = mNeighbours.get(position);
         holder.mNeighbourName.setText(neighbour.getName());
         Glide.with(holder.mNeighbourAvatar.getContext())
@@ -71,21 +71,5 @@ public class FavoriteNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<F
     @Override
     public int getItemCount() {
         return mNeighbours.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_list_avatar)
-        public ImageView mNeighbourAvatar;
-        @BindView(R.id.item_list_name)
-        public TextView mNeighbourName;
-        @BindView(R.id.item_list_favorite_delete_button)
-        public ImageButton mDeleteButton;
-        @BindView(R.id.favorite_neighbour_list_item)
-        public ConstraintLayout mNeighbourListItem;
-
-        public ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
     }
 }
